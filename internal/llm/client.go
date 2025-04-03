@@ -12,6 +12,7 @@ type Client interface {
 	StreamResponse(ctx context.Context, prompt string, model string) error
 	ReviewCodeDiff(ctx context.Context, diff string, model string) error
 	RefactorFile(ctx context.Context, filename string, content string, instructions string, model string) (string, error)
+	ClearChatHistory() error
 }
 
 // NewClient creates a new LLM client based on the provider

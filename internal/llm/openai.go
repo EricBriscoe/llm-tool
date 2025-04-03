@@ -165,3 +165,9 @@ specifically require changes. Keep all imports and package declarations.`,
 
 	return resp.Choices[0].Message.Content, nil
 }
+
+// ClearChatHistory is a placeholder for OpenAI as we don't currently store chat history
+func (c *OpenAIClient) ClearChatHistory() error {
+	// OpenAI client doesn't maintain history yet, so this is a no-op
+	return nil
+}

@@ -404,3 +404,9 @@ func SetupToken(email, token, endpoint string) error {
 	fmt.Printf("Token setup successful: %s\n", body)
 	return nil
 }
+
+// ClearChatHistory is a placeholder for CBOE as we don't currently store chat history
+func (c *CBOEClient) ClearChatHistory() error {
+	// CBOE client doesn't maintain history yet, so this is a no-op
+	return nil
+}

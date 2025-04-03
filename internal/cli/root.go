@@ -87,6 +87,35 @@ func NewRootCmd() *cobra.Command {
 		},
 	}
 
+	// Add clear-history command to manage chat history
+	clearHistoryCmd := &cobra.Command{
+		Use:   "clear-history",
+		Short: "Clear conversation history for an LLM provider",
+		Long:  `Clear the stored conversation history for the specified LLM provider.`,
+		RunE: func(cmd *cobra.Command, args []string) error {
+			cfg, err := config.Load()
+			if err != nil {
+				return fmt.Errorf("failed to load config: %w", err)
+			}
+			
+			if provider == "" {
+				provider = cfg.DefaultProvider
+			}
+			
+			client, err := llm.NewClient(provider, cfg)
+			if err != nil {
+				return err
+			}
+			
+			if err := client.ClearChatHistory(); err != nil {
+				return fmt.Errorf("failed to clear chat history: %w", err)
+			}
+			
+			fmt.Printf("Successfully cleared chat history for %s provider\n", provider)
+			return nil
+		},
+	}
+
 	askCmd := &cobra.Command{
 		Use:   "ask [prompt]",
 		Short: "Ask a question to an LLM",
@@ -290,7 +319,9 @@ Changes are staged for review before being applied.`,
 		},
 	}
 
-	// Add flags to editCmd
+	// Add flags to commands
+	clearHistoryCmd.Flags().StringVarP(&provider, "provider", "p", "", "LLM provider (openai, cboe, gemini)")
+	
 	editCmd.Flags().StringVarP(&provider, "provider", "p", "", "LLM provider (openai, cboe, gemini)")
 	editCmd.Flags().StringVarP(&model, "model", "m", "", "Model to use (defaults to config)")
 	editCmd.Flags().BoolVarP(&applyChanges, "yes", "y", false, "Apply changes without confirmation")
@@ -309,12 +340,15 @@ Changes are staged for review before being applied.`,
 	reviewCmd.Flags().StringVarP(&model, "model", "m", "", "Model to use (defaults to config)")
 	reviewCmd.Flags().StringVarP(&repoPath, "repo", "r", "", "Path to git repository (defaults to current directory)")
 
+	// Add commands to root command
 	configCmd.AddCommand(configPathCmd)
 	configCmd.AddCommand(setupTokenCmd)
 	rootCmd.AddCommand(configCmd)
 	rootCmd.AddCommand(askCmd)
 	rootCmd.AddCommand(reviewCmd)
 	rootCmd.AddCommand(editCmd)
+	rootCmd.AddCommand(clearHistoryCmd)
+	
 	return rootCmd
 }
 
