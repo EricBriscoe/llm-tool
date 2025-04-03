@@ -34,28 +34,12 @@ gemini:
   model: gemini-2.0-flash-lite
 ```
 
-### CBOE Authentication Setup
-
-To set up your CBOE credentials, use:
-
-```bash
-./llm-tool config setup-cboe --email your_email@example.com --token your_token
-```
-
-This will both register your token with the CBOE API and save the credentials to your config file.
-
 ## Usage
 
 Query an LLM:
 
 ```bash
 ./llm-tool ask "What is the capital of France?"
-```
-
-Query CBOE with a specific datasource:
-
-```bash
-./llm-tool ask --provider cboe --datasource my_custom_datasource "What is the capital of France?"
 ```
 
 Query Google Gemini:
@@ -97,5 +81,4 @@ cat myfile.go | ./llm-tool edit "Simplify the error handling logic"
 ## Supported Providers
 
 - OpenAI
-- CBOE
 - Google Gemini
