@@ -74,7 +74,6 @@ cat myfile.go | ./llm-tool edit "Simplify the error handling logic"
 
 - `--provider` (`-p`): LLM provider to use (openai, cboe, gemini) (defaults to config's defaultProvider)
 - `--model` (`-m`): Model to use (defaults to provider's configured model)
-- `--datasource` (`-d`): Data source to use with CBOE queries
 - `--yes` (`-y`): Apply changes without confirmation (for edit command)
 - `--output` (`-o`): Output directory for refactored files (for edit command)
 
